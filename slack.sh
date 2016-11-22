@@ -32,6 +32,17 @@ message="${subject}: $3"
 
 # Build our JSON payload and send it as a POST request to the Slack incoming web-hook URL
 
-payload="payload={\"channel\": \"${to//\"/\\\"}\", \"username\": \"${username//\"/\\\"}\", \"text\": \"${message//\"/\\\"}\", \"icon_emoji\": \"${emoji}\", \"color\": \"${color}\"}"
+payload="payload={
+        \"channel\": \"${to//\"/\\\"}\",
+        \"username\": \"${username//\"/\\\"}\",
+        \"icon_emoji\": \"${emoji}\",
+        \"parse\": \"full\",
+        \"attachments\": [{
+                \"title\": \"Zabbix Dashboard\",
+                \"title_link\": \"http://zabbix32.zvq.me/\",
+                \"text\": \"${message//\"/\\\"}\",
+                \"color\": \"${color}\"
+        }],
+}"
 
 curl -m 5 --data-urlencode "${payload}" $url -A 'zabbix-slack-alertscript / https://github.com/ericoc/zabbix-slack-alertscript'
