@@ -17,10 +17,13 @@ subject="$2"
 recoversub='^RECOVER(Y|ED)?$'
 if [[ "$subject" =~ ${recoversub} ]]; then
 	emoji=':smile:'
+	color='green'
 elif [ "$subject" == 'PROBLEM' ]; then
 	emoji=':frowning:'
+	color='red'
 else
 	emoji=':ghost:'
+	color='yellow'
 fi
 
 # The message that we want to send to Slack is the "subject" value ($2 / $subject - that we got earlier)
@@ -28,5 +31,7 @@ fi
 message="${subject}: $3"
 
 # Build our JSON payload and send it as a POST request to the Slack incoming web-hook URL
-payload="payload={\"channel\": \"${to//\"/\\\"}\", \"username\": \"${username//\"/\\\"}\", \"text\": \"${message//\"/\\\"}\", \"icon_emoji\": \"${emoji}\"}"
+
+payload="payload={\"channel\": \"${to//\"/\\\"}\", \"username\": \"${username//\"/\\\"}\", \"text\": \"${message//\"/\\\"}\", \"icon_emoji\": \"${emoji}\", \"color\": \"${color}\"}"
+
 curl -m 5 --data-urlencode "${payload}" $url -A 'zabbix-slack-alertscript / https://github.com/ericoc/zabbix-slack-alertscript'
