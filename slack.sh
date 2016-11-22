@@ -17,13 +17,13 @@ subject="$2"
 recoversub='^RECOVER(Y|ED)?$'
 if [[ "$subject" =~ ${recoversub} ]]; then
 	emoji=':smile:'
-	color='green'
+	color='good'
 elif [ "$subject" == 'PROBLEM' ]; then
 	emoji=':frowning:'
-	color='red'
+	color='danger'
 else
 	emoji=':ghost:'
-	color='yellow'
+	color='warning'
 fi
 
 # The message that we want to send to Slack is the "subject" value ($2 / $subject - that we got earlier)
