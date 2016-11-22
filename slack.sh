@@ -16,13 +16,13 @@ subject="$2"
 # Change message emoji depending on the subject - smile (RECOVERY), frowning (PROBLEM), or ghost (for everything else)
 recoversub='^RECOVER(Y|ED)?$'
 if [[ "$subject" =~ ${recoversub} ]]; then
-	emoji=':smile:'
+	emoji=':sweat_smile:'
 	color='good'
 elif [ "$subject" == 'PROBLEM' ]; then
-	emoji=':frowning:'
+	emoji=':scream:'
 	color='danger'
 else
-	emoji=':ghost:'
+	emoji=':robot_face:'
 	color='warning'
 fi
 
