@@ -12,23 +12,23 @@ username='Zabbix'
 # Get the Slack channel or user ($1) and Zabbix subject ($2 - hopefully either PROBLEM or RECOVERY)
 to="$1"
 subject="$2"
+message="$3"
 
 # Change message emoji depending on the subject - smile (RECOVERY), frowning (PROBLEM), or ghost (for everything else)
-recoversub='^RECOVER(Y|ED)?$'
+
+problemsub='^PROBLEM'
+recoversub='^RECOVER(Y|ED)?'
+
 if [[ "$subject" =~ ${recoversub} ]]; then
 	emoji=':sweat_smile:'
 	color='good'
-elif [ "$subject" == 'PROBLEM' ]; then
+elif [[ "$subject" =~ ${problemsub} ]]; then
 	emoji=':scream:'
 	color='danger'
 else
 	emoji=':robot_face:'
 	color='warning'
 fi
-
-# The message that we want to send to Slack is the "subject" value ($2 / $subject - that we got earlier)
-#  followed by the message that Zabbix actually sent us ($3)
-message="${subject}: $3"
 
 # Build our JSON payload and send it as a POST request to the Slack incoming web-hook URL
 
@@ -38,7 +38,7 @@ payload="payload={
         \"icon_emoji\": \"${emoji}\",
         \"parse\": \"full\",
         \"attachments\": [{
-                \"title\": \"Zabbix Dashboard\",
+                \"title\": \"${subject//\"/\\\"}\",
                 \"title_link\": \"http://zabbix32.zvq.me/\",
                 \"text\": \"${message//\"/\\\"}\",
                 \"color\": \"${color}\"
