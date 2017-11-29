@@ -3,6 +3,7 @@
 # Slack incoming web-hook URL and user name
 url='CHANGEME'		# example: https://hooks.slack.com/services/QW3R7Y/D34DC0D3/BCADFGabcDEF123
 username='Zabbix'
+zabbix_host='https://z.hostname.com/'
 
 ## Values received by this script:
 # To = $1 (Slack channel or user to send the message to, specified in the Zabbix web interface; "@username" or "#channel")
@@ -39,7 +40,7 @@ payload="payload={
         \"parse\": \"full\",
         \"attachments\": [{
                 \"title\": \"${subject//\"/\\\"}\",
-                \"title_link\": \"http://zabbix32.zvq.me/\",
+                \"title_link\": \"${zabbix_host}\",
                 \"text\": \"${message//\"/\\\"}\",
                 \"color\": \"${color}\"
         }],
